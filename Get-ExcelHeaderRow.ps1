@@ -82,7 +82,7 @@ This portion begins the main part of the code that will interact with excel and 
     $headerArray = $excelHeaderRange -split "`n"
     $headerArrayOld = $headerArray
     
-   
+   try {
     $loopcounter = 0
     foreach ($header in $headerArray) {
         <# Validate if any of the headers contain reserved chars #>
@@ -112,6 +112,7 @@ This portion begins the main part of the code that will interact with excel and 
             
         }
     }
+    } Catch{Write-Output"An Error Occured: $_"}
 
      if ($loopcounter -eq 0) 
      { 

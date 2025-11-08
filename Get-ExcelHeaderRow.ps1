@@ -96,7 +96,7 @@ This portion begins the main part of the code that will interact with excel and 
              $header to $newHeaderName"
             if($userResponseHeaders -eq "yes")
                 {
-                    #Update the Value in the excel document
+                    Update the Value in the excel document
                     $workingSheet.Range([string](Get-ExcelColLetter -columnNumber `
                      $HeaderArray.indexof($header)+1)+[string]($rowNum)).value2 = $newHeaderName
 
@@ -105,7 +105,7 @@ This portion begins the main part of the code that will interact with excel and 
 
                     # Save and close the workbook
                     $excelWB.Save()
-                    $excelWB.Close()
+                
                 }
              
              
@@ -120,17 +120,28 @@ This portion begins the main part of the code that will interact with excel and 
     } 
     else 
     {
-        Write-Host "One or more column headers has/had reserved characters in their names`
-         Old values are $(foreach($col in $headerArrayOld) {"$col`n"}) New values are`
-         $(foreach($col in $headerArray) {"$col`n"})"
+        $message += "One or more column headers has/had reserved characters in their names. "
+        $message +="`nOld values are`n"
+        $message +=" $(foreach($col in $headerArrayOld){"$col`n"})`nNew values are"
 
+        $counter = 0
+         foreach($col2 in $headerArray) 
+            {
+                 
+                if($counter -le 1) {$message+="`n$col2"} else{$message+="$col2`n"}
+                $counter+=1
+            }
+
+        Write-Host $message
         $outputList=$headerArray
 
     }
-    Return $outputList
+    
 # Quit the Excel application
+Write-Host "Closing Excel"
 $excelWB.Close()
 $excelObject.Quit()
+#Stop-Process -Name "*Excel*"
 
 # Release COM objects
 [System.Runtime.InteropServices.Marshal]::ReleaseComObject($workingsheet) | Out-Null
@@ -140,9 +151,9 @@ $excelObject.Quit()
 # Force garbage collection to finalize cleanup
 [GC]::Collect()
 [GC]::WaitForPendingFinalizers()
-Stop-Process -Name *Excel*
 
-Start-Sleep -Seconds 120
+Write-Host "`nFinal Output`n"
+Return $outputList
 }
 
 #Call the Main Function to Run the script

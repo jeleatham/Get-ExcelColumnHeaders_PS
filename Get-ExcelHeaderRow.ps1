@@ -96,7 +96,7 @@ This portion begins the main part of the code that will interact with excel and 
              $header to $newHeaderName"
             if($userResponseHeaders -eq "yes")
                 {
-                    Update the Value in the excel document
+                    #Update the Value in the excel document
                     $workingSheet.Range([string](Get-ExcelColLetter -columnNumber `
                      $HeaderArray.indexof($header)+1)+[string]($rowNum)).value2 = $newHeaderName
 

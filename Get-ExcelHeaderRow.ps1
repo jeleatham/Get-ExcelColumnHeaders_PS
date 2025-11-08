@@ -27,7 +27,9 @@ function Get-ExcelHeaderRows {
         [Parameter(Position = 2)][string]$startingCell = "A1",
 
         #Explicitly validate on string types
-        [Parameter(Position = 3)][string]$folderPath
+        [Parameter(Position = 3)][string]$folderPath,
+
+        [Parameter(Position = 4)][string]$reservedCharacters = "<>%&)?/"
 
 
     )
@@ -80,7 +82,7 @@ This portion begins the main part of the code that will interact with excel and 
     $headerArray = $excelHeaderRange -split "`n"
     $headerArrayOld = $headerArray
     
-    $reservedCharacters = "<>%&)?/"
+   
     $loopcounter = 0
     foreach ($header in $headerArray) {
         <# Validate if any of the headers contain reserved chars #>

@@ -143,6 +143,6 @@ Stop-Process -Name *Excel*
 Start-Sleep -Seconds 120
 }
 
-
+#Call the Main Function to Run the script
 Get-ExcelHeaderRows
 Read-Host "Hit Enter to close the window"
